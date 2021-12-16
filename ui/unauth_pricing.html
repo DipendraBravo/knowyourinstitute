@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>खबर खाबर</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+<!-- Preloader -->
+<div class="preloader d-flex align-items-center justify-content-center">
+    <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <!-- Navbar Area -->
+    <div class="newsbox-main-menu">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container-fluid">
+                <!-- Menu -->
+                <nav class="classy-navbar justify-content-between" id="newsboxNav">
+
+                    <!-- Nav brand -->
+                    <a href="{% url 'home' %}" class="nav-brand"><img src="/static/img/core-img/logo.png" alt=""></a>
+
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+
+                    <!-- Menu -->
+                    <div class="classy-menu">
+
+                        <!-- Close Button -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+
+                        <!-- Nav Start -->
+                        <div class="classynav">
+
+
+                                <ul>
+                                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                                    <li><a href="/login">Login</a></li>
+
+                                    <li><a href="/register">Register</a></li>
+                                </ul>
+
+
+
+
+
+
+                            <!-- Header Add Area -->
+
+                        </div>
+                        <!-- Nav End -->
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- ##### Header Area End ##### -->
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+
+
+<section class="intro-news-area section-padding-100-0 mb-70">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <!-- Intro News Tabs Area -->
+            <div class="col-10 col-lg-8">
+                <div class="intro-news-tab">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav1">
+                            <div class="row">
+                                <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                                    <h1 class="display-4">Pricing</h1>
+                                    <h3 class="text-muted">Current Subscription: <small>{% if status_check == 0 %}
+                                        Free
+                                        {% elif status_check == 1 %}
+                                        Gold
+                                        {% elif status_check == 2 %}
+                                        Diamond
+                                    {% endif %}</small></h3>
+                                    <p class="lead">We Provide All Variety Of Services</p>
+                                </div>
+                                <div class="container-fluid">
+                                    <div class="card-deck mb-3 text-center">
+                                        <div class="card mb-4 shadow-sm">
+                                            <div class="card-header">
+                                                <h4 class="my-0 font-weight-normal">Free</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <h1 class="card-title pricing-card-title">$0 <small class="text-muted">/
+                                                    mo</small></h1>
+                                                <ul class="list-unstyled mt-3 mb-4">
+                                                    <li>Limited News Sources</li>
+                                                    <li>Limited News Category</li>
+                                                    <li>&nbsp;</li>
+                                                </ul>
+                                                <button type="button" class="btn btn-lg btn-block btn-outline-primary" onclick="window.location.href='{% url 'register' %}'">
+                                                    Sign up for free
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-4 shadow-sm">
+                                            <div class="card-header">
+                                                <h4 class="my-0 font-weight-normal">Gold</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <h1 class="card-title pricing-card-title">$3 <small class="text-muted">/
+                                                    mo</small></h1>
+                                                <ul class="list-unstyled mt-3 mb-4">
+                                                    <li>130+ News Sources</li>
+                                                    <li>7 News Category</li>
+                                                    <li>News in 14 Different languages</li>
+
+                                                </ul>
+                                                <button type="button" class="btn btn-lg btn-block btn-primary">Get
+                                                    started
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Widget -->
+
+        </div>
+    </div>
+</section>
+<!-- ##### Intro News Area End ##### -->
+
+<div class="big-add-area mb-100">
+        <div class="container-fluid">
+            <a href="#"><img src="/static/img/bg-img/add2.png" alt=""></a>
+        </div>
+    </div>
+
+<!-- ##### Footer Area Start ##### -->
+<footer class="footer-area">
+    <!-- Footer Logo -->
+    <div class="footer-logo mb-100">
+        <a href="index.html"><img src="/static/img/core-img/logo.png" alt=""></a>
+    </div>
+    <!-- Footer Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="footer-content text-center">
+                    <!-- Footer Nav -->
+                    <div class="footer-nav">
+                        <ul>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Closed Captioning</a></li>
+                            <li><a href="#">Site Map</a></li>
+                        </ul>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- ##### Footer Area Start ##### -->
+
+<!-- ##### All Javascript Script ##### -->
+<!-- jQuery-2.2.4 js -->
+<script src="/static/js/jquery/jquery-2.2.4.min.js"></script>
+<!-- Popper js -->
+<script src="/static/js/bootstrap/popper.min.js"></script>
+<!-- Bootstrap js -->
+<script src="/static/js/bootstrap/bootstrap.min.js"></script>
+<!-- All Plugins js -->
+<script src="/static/js/plugins/plugins.js"></script>
+<!-- Active js -->
+<script src="/static/js/active.js"></script>
+    <script src="/static/js/active.js"></script>
+
+</body>
+
+</html>

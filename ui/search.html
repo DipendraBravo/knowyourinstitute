@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <!-- Title -->
+    <title>खबर खाबर</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/static/img/core-img/favicon.ico">
+
+    <!-- Stylesheet -->
+
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <!-- ##### Header Area Start ##### -->
+    <header class="header-area">
+        <!-- Navbar Area -->
+        <div class="newsbox-main-menu">
+            <div class="classy-nav-container breakpoint-off">
+                <div class="container-fluid">
+                    <!-- Menu -->
+                    <nav class="classy-navbar justify-content-between" id="newsboxNav">
+
+                        <!-- Nav brand -->
+                        <a href="{% url 'home' %}" class="nav-brand"><img src="/static/img/core-img/logo.png" alt=""></a>
+
+                        <!-- Navbar Toggler -->
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+
+                        <!-- Menu -->
+                        <div class="classy-menu">
+
+                            <!-- Close Button -->
+                            <div class="classycloseIcon">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+     <!-- Nav Start -->
+                        <div class="classynav">
+                            {% if user.is_authenticated %}
+                                <ul>
+                                    <li><a href="{% url 'personal' %}">Personal</a></li>
+                                </ul>
+                                <ul>
+                                    <li><a href="{% url 'edit' %}">Customize</a></li>
+                                </ul>
+
+                                <ul>
+                                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+
+                                    <li><a href="">Sources</a>
+                                        <ul class="megamenu">
+                                            <ul class="single-mega cn-col-4">
+
+                                                {% for foo in sources %}
+                                                    <li><a onclick="sourceSelect('{{ foo.id }}')">{{ foo.name }}</a>
+                                                    </li>
+                                                    <form action="{% url 'source_selected' %}" method="GET"
+                                                          id="selectSourceForm{{ foo.id }}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="source_id" value="{{ foo.id }}">
+                                                    </form>
+                                                    {% if forloop.counter|divisibleby:5 %}
+                                                        </ul>
+                                                        <ul class="single-mega cn-col-4">
+
+                                                    {% endif %}
+                                                {% if forloop.last %}
+                                                    {% if forloop.counter|divisibleby:5 %}
+                                                    {% else %}
+                                                        </ul>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% endfor %}
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+
+                               
+
+                               
+
+                                <li><a href="/pricing">Pricing</a></li>
+
+
+                                <li><a href="/profile">{{ user.get_username }}</a></li>
+
+                                <li><a href="/logout">Logout</a></li>
+
+                            {% else %}
+                                <ul>
+                                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                                    <li><a href="/login">Login</a></li>
+
+                                    <li><a href="/register">Register</a></li>
+                                </ul>
+
+
+
+                            {% endif %}
+
+
+                            <!-- Header Add Area -->
+
+                        </div>
+                        <!-- Nav End -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ##### Header Area End ##### -->
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <section class="breaking-news-area">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Breaking News Widget -->
+                    <div class="breaking-news-ticker d-flex flex-wrap align-items-center">
+                        <div class="title">
+                            <h6>Trending</h6>
+                        </div>
+                        <div id="breakingNewsTicker" class="ticker">
+                            <ul>
+
+                                {% if news %}
+                                    {% for data in news %}
+                                        <li><a href="{{ data.url }}">{{ data.title }}  ' {{ data.source.name }}'</a></li>
+                                    {% endfor %}
+
+                                {% endif %}
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Breaking News Area Start ##### -->
+    <!-- ##### Catagory Featured Area Start ##### -->
+    <div class="catagory-featured-post bg-overlay clearfix" style="background-image: url({{ news.0.urlToImage }})">
+        <div class="container-fluid h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12 col-lg-9">
+                    <!-- Post Content -->
+                    <div class="post-content">
+                        <p class="tag"><span>Top News</span></p>
+                        <a href="{{ news.0.url }}" class="post-title">{{ news.0.title }}</a>
+                        <p>{{ news.0.content }} </p>
+                        <span class="post-date">{{ news.0.author }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Catagory Featured Area End ##### -->
+<section class="intro-news-area section-padding-100-0 mb-70">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <!-- Intro News Tabs Area -->
+                <div class="col-12 col-lg-8">
+                    <div class="intro-news-tab">
+
+                        <!-- Intro News Filter -->
+                        <div class="intro-news-filter d-flex justify-content-between">
+                            <h6>All the news</h6>
+                            <a class="nav-item nav-link active" id="nav1" data-toggle="tab" href="#nav-1" role="tab" aria-controls="nav-1" aria-selected="true">Result For <small>{{ key }}</small></a>
+
+                        </div>
+
+
+   <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav1">
+                                <div class="row">
+   {% for foo in query %}
+   {% if forloop.counter0 == 0 %}
+                                                         <div class="col-12">
+                                                    <div class="single-blog-post style-2 mb-5">
+                                                        <!-- Blog Thumbnail -->
+                                                        <div class="blog-thumbnail">
+                                                            <a href="#"><img src="{{ foo.urlToImage }}" alt=""></a>
+                                                        </div>
+
+                                                        <!-- Blog Content -->
+                                                        <div class="blog-content">
+                                                            <span class="published-date">{{ foo.publishedAt|slice:"10"}}</span>
+                                                              <span class="post-date">{{ foo.sources.name }}</span>
+                                                            <a href="{{ foo.url }}" class="post-title">{{ foo.title }}</a>
+                                                            <a href="#" class="post-author mb-30">{{foo.author}}</a>
+                                                            <p>{{ foo.content }} </p>
+                                                        </div>
+                                                    </div>
+                                    </div>
+                                                {% else %}
+                  <div class="col-12 col-sm-6">
+                                        <div class="single-blog-post style-2 mb-5">
+                                            <!-- Blog Thumbnail -->
+                                            <div class="blog-thumbnail">
+                                                <a href="#"><img src="{{ foo.urlToImage }}" alt=""></a>
+                                            </div>
+
+                                            <!-- Blog Content -->
+                                            <div class="blog-content">
+                                                <span class="published-date">{{ foo.publishedAt|slice:"10"}}</span>
+                                                <span class="post-date">{{ foo.sources.name }}</span>
+                                                <a href="#" class="post-title">{{ foo.title }}</a>
+                                                <a href="#" class="post-author">{{ foo.author }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                            {% endif %}
+    {% endfor %}
+                                </div>
+                            </div>
+   </div>
+
+
+                    </div>
+                </div>
+
+                <!-- Sidebar Widget -->
+                <div class="col-12 col-sm-9 col-md-6 col-lg-4">
+                    <div class="sidebar-area">
+
+                        <!-- Newsletter Widget -->
+                        <div class="single-widget-area newsletter-widget mb-30">
+                            <h4>Search Latest News</h4>
+                            <form action="{% url 'search' %}" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="query" id="" placeholder="Enter Keywords">
+                                <button type="submit" class="btn newsbox-btn w-100">Search</button>
+                            </form>
+                            <p class="mt-30">This Search Works Only For Past 30 Days.</p>
+                        </div>
+
+
+                    <div class="single-widget-area add-widget mb-30">
+                            <a href="#">
+                                <img src="/static/img/bg-img/add3.png" alt="">
+                            </a>
+                        </div>
+                        <!-- Add Widget -->
+                        <div class="single-widget-area add-widget mb-30">
+                            <a href="#">
+                                <img src="/static/img/core-img/logo.png" alt="">
+                            </a>
+                        </div>
+
+                        <!-- Latest News Widget -->
+                        <div class="single-widget-area news-widget mb-30">
+                            <h4>Latest News</h4>
+
+                            <!-- Single News Area -->
+                           {% if news %}
+                           {% for foo in news %}
+                            <div class="single-blog-post d-flex style-4 mb-30">
+                                <!-- Blog Thumbnail -->
+                                <div class="blog-thumbnail">
+                                    <a href="#"><img src="{{ foo.urlToImage }}" alt=""></a>
+                                </div>
+
+                                <!-- Blog Content -->
+                                <div class="blog-content">
+                                    <span class="post-date">{{ foo.author }}</span>
+                                    <a href="{{ foo.url }}" class="post-title">{{ foo.title }}</a>
+                                </div>
+                            </div>
+                           {% endfor %}
+
+                           {% endif %}
+
+
+
+
+
+                            <!-- Single News Area -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Intro News Area End ##### -->
+
+    <div class="big-add-area mb-100">
+        <div class="container-fluid">
+            <a href="#"><img src="/static/img/bg-img/add2.png" alt=""></a>
+        </div>
+    </div>
+
+    <!-- ##### Footer Area Start ##### -->
+    <footer class="footer-area">
+        <!-- Footer Logo -->
+        <div class="footer-logo mb-100">
+            <a href="index.html"><img src="/static/img/core-img/logo.png" alt=""></a>
+        </div>
+        <!-- Footer Content -->
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer-content text-center">
+                        <!-- Footer Nav -->
+                        <div class="footer-nav">
+                            <ul>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Closed Captioning</a></li>
+                                <li><a href="#">Site Map</a></li>
+                            </ul>
+                        </div>
+                        <!-- Social Info -->
+                        <div class="footer-social-info">
+                                                        <a href="https://github.com/dcostersabin/newsportal" data-toggle="tooltip" data-placement="top" title="GitHub"><i class="fa fa-github" aria-hidden="true"></i></a>
+
+                        </div>
+
+
+                        <!-- Copywrite Text -->
+                        <p class="copywrite-text"><a href="#">
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ##### Footer Area Start ##### -->
+
+    <!-- ##### All Javascript Script ##### -->
+    <!-- jQuery-2.2.4 js -->
+    <script src="/static/js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="/static/js/bootstrap/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="/static/js/bootstrap/bootstrap.min.js"></script>
+    <!-- All Plugins js -->
+    <script src="/static/js/plugins/plugins.js"></script>
+    <!-- Active js -->
+    <script src="/static/js/active.js"></script>
+    <script src="/static/js/custom.js"></script>
+</body>
+
+</html>
